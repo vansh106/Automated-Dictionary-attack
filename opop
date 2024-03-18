@@ -1,0 +1,50 @@
+async function addToCart(page) {
+    
+const url = "https://www.eyemyeye.com/eyeglasses/Nerdlane-black-fullframe-rectangle-eyeglasses-women-product-E12B6091/";
+    //BOT for a online specs ordering website eyemyeye.com 
+    // const coupon = 'GFRJAQCLAH8D8CVKJ';
+    const coupon = 'fakeCoupon';
+    await page.goto(url);
+    await page.waitForSelector("button[class='buy_now ']");
+    console.log("waited");
+    await buttonClick(page, 'buy_now ');
+    console.log("clicked");
+    // await page.waitForNavigation(); 
+    // await page.waitFor(100);
+    await page.waitForSelector("input[class='btn btn-block btn-primary mb-0 font-size-base']");
+    await inputClick(page, 'btn btn-block btn-primary mb-0 font-size-base');
+    //E50B3873_ 554
+    await page.waitForSelector("button[class='btn btn-default addto tag']");
+    // await page.waitForNavigation();
+    // await page.waitFor(2700);
+    // await buttonClick(page,'btn btn-default addto tag');
+    await page.evaluate(() => document.getElementsByClassName('btn btn-default addto tag')[3].click());
+    //apply-coupon-btn apply-coupon-nonloggedIn w-100 pl-9 font-weight-bolder
+    await page.waitForSelector("div[class='apply-coupon-btn apply-coupon-nonloggedIn w-100 pl-9 font-weight-bolder']");
+    await divClick(page, 'apply-coupon-btn apply-coupon-nonloggedIn w-100 pl-9 font-weight-bolder');
+    await page.waitFor(1000);
+    await page.waitForSelector("input[id='userinput']");
+    await page.type("input[id='userinput']", '6261761136');
+    await buttonClick(page, 'btn btn-success btn-block mb-5');
+    await page.waitFor(800);
+    await page.waitForSelector("input[id='password']");
+    await page.type("input[id='password']", 'vansh106');
+    await buttonClick(page, 'btn btn-success btn-block submit-form-btn');
+    await page.waitFor(1000);
+    await page.waitForSelector("input[class='form-control coupon']");
+    await page.type("input[class='form-control coupon']", coupon);
+    //btn btn-primary btn-apply-coupon d-block w-100
+    await buttonClick(page, 'btn btn-primary btn-apply-coupon d-block w-100');
+    console.log("Hogaya");
+    //text-uppercase d-inline-block mr-2
+    try {
+        var element = await page.$("span[class='text-uppercase d-inline-block mr-2']");
+        var value = await page.evaluate(el => el.textContent, element);
+        var result = JSON.stringify(value);
+        console.log("COUPON FOUND: ");
+
+
+    } catch (err) {
+        console.log('COUPON NOT FOUND ');
+    }
+}
